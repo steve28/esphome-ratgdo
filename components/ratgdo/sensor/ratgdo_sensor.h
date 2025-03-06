@@ -7,8 +7,7 @@
 
 #ifdef USE_DISTANCE
 #include "Wire.h"
-#include "vl53l4cx_class.h"
-#define I2C Wire
+#include "vl53l1x_class.h"
 #endif
 
 namespace esphome {
@@ -26,16 +25,17 @@ namespace ratgdo {
 
     class RATGDOSensor : public sensor::Sensor, public RATGDOClient, public Component {
     public:
+        RATGDOSensor();
         void dump_config() override;
         void setup() override;
         void loop() override;
         void set_ratgdo_sensor_type(RATGDOSensorType ratgdo_sensor_type_) { this->ratgdo_sensor_type_ = ratgdo_sensor_type_; }
-
+        uint16_t last_distance { 0 };
+        uint32_t last_distance_millis { 0 };
     protected:
         RATGDOSensorType ratgdo_sensor_type_;
-
 #ifdef USE_DISTANCE
-        VL53L4CX distance_sensor_;
+        VL53L1X distance_sensor_;
 #endif
     };
 

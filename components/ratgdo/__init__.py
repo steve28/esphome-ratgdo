@@ -29,6 +29,9 @@ DEFAULT_INPUT_OBST = "D7"  # D7 black obstruction sensor terminal
 CONF_DISCRETE_OPEN_PIN = "discrete_open_pin"
 CONF_DISCRETE_CLOSE_PIN = "discrete_close_pin"
 
+CONF_TOF_SDA_PIN = "tof_sda_pin"
+CONF_TOF_SCL_PIN = "tof_scl_pin"
+
 CONF_RATGDO_ID = "ratgdo_id"
 
 CONF_ON_SYNC_FAILED = "on_sync_failed"
@@ -80,6 +83,8 @@ CONFIG_SCHEMA = cv.All(
             ),
             cv.Optional(CONF_DISCRETE_OPEN_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_DISCRETE_CLOSE_PIN): pins.gpio_output_pin_schema,
+            cv.Optional(CONF_TOF_SDA_PIN): pins.gpio_output_pin_schema,
+            cv.Optional(CONF_TOF_SCL_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_ON_SYNC_FAILED): automation.validate_automation(
                 {
                     cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(SyncFailed),
@@ -98,7 +103,7 @@ CONFIG_SCHEMA = cv.All(
             ),
         }
     ).extend(cv.COMPONENT_SCHEMA),
-    validate_protocol,
+    #validate_protocol,
 )
 
 RATGDO_CLIENT_SCHMEA = cv.Schema(
@@ -168,3 +173,10 @@ async def to_code(config):
     if CONF_DISCRETE_CLOSE_PIN in config and config[CONF_DISCRETE_CLOSE_PIN]:
         pin = await cg.gpio_pin_expression(config[CONF_DISCRETE_CLOSE_PIN])
         cg.add(var.set_discrete_close_pin(pin))
+
+    if CONF_TOF_SDA_PIN in config and config[CONF_TOF_SDA_PIN]:
+        pin = await cg.gpio_pin_expression(config[CONF_TOF_SDA_PIN])
+        cg.add(var.set_tof_sda_pin(pin))
+    if CONF_TOF_SCL_PIN in config and config[CONF_TOF_SCL_PIN]:
+        pin = await cg.gpio_pin_expression(config[CONF_TOF_SCL_PIN])
+        cg.add(var.set_tof_scl_pin(pin))
