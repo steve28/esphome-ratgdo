@@ -100,8 +100,8 @@ namespace ratgdo {
             this->traits.set_max_value(0x7ff539);
         } else if (this->number_type_ == RATGDO_TARGET_DISTANCE_MEASUREMENT) {
             this->traits.set_step(1);
-            this->traits.set_min_value(5);
-            this->traits.set_max_value(3500);
+            this->traits.set_min_value(10);
+            this->traits.set_max_value(4000);
         }
     }
 
