@@ -50,9 +50,9 @@ namespace esphome
                 this->parent_->subscribe_paired_accessories([=](uint16_t value)
                                                             { this->publish_state(value); });
             }
+#ifdef USE_DISTANCE            
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_DISTANCE)
             {
-#ifdef USE_DISTANCE
                 VL53L1X distance_sensor_(&Wire, 33);
                 VL53L1X_Error rc = VL53L1X_ERROR_NONE;
                 Wire.begin(this->parent_->get_tof_sda_pin(), this->parent_->get_tof_scl_pin(), 400000);
@@ -79,10 +79,9 @@ namespace esphome
                     ESP_LOG1(TAG, "VL53L1X_StartMeasurement error: %d", rc);
                     return;
                 }
-
                 this->parent_->subscribe_distance_measurement([=](int16_t value) { this->publish_state(value); });
-#endif
             }
+#endif
         }
 
         void RATGDOSensor::dump_config()
@@ -117,10 +116,9 @@ namespace esphome
                 ESP_LOGCONFIG(TAG, "  Type: Distance");
             }
         }
-
+#ifdef USE_DISTANCE
         void RATGDOSensor::loop()
         {
-#ifdef USE_DISTANCE
             uint32_t current_millis = millis();
             if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_DISTANCE)
             {
@@ -137,8 +135,8 @@ namespace esphome
                     }
                     distance_sensor_.VL53L1X_ClearInterrupt();
                 }
-#endif
             }
         }
+#endif
     } // namespace ratgdo
 } // namespace esphome
