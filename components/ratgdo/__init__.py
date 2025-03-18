@@ -158,6 +158,7 @@ async def to_code(config):
         repository="https://github.com/ratgdo/espsoftwareserial#autobaud",
         version=None,
     )
+    cg.add_define("USE_ESP32")
 
     if config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV1:
         cg.add_define("PROTOCOL_SECPLUSV1")
