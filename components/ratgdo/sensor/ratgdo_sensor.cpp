@@ -67,7 +67,7 @@ namespace esphome
                     Wire.end(); // Disable I2C pins
                     return;
                 }
-                rc = distance_sensor_.VL53L1X_SetDistanceMode(3);
+                rc = distance_sensor_.VL53L1X_SetDistanceMode(1);
                 if (rc != VL53L1X_ERROR_NONE)
                 {
                     ESP_LOG1(TAG, "VL53L1X_SetDistanceMode error: %d", rc);
